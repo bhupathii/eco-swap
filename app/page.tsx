@@ -602,18 +602,13 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="relative h-64 md:h-auto overflow-hidden rounded-r-xl">
-                  {/* Using a default EV bike image with a fallback to our SVG */}
+                  {/* Using the EV bike SVG image */}
                   <div className="absolute inset-0 flex items-center justify-center p-8">
                     <Image
-                      src="/images/ev-bike.jpg"
+                      src="/images/ev-bike.svg"
                       fill
                       alt="Electric bike"
                       className="object-contain hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        // Fallback to our SVG if the JPG doesn't exist
-                        const target = e.target as HTMLImageElement;
-                        target.src = "/images/ev-bike.svg";
-                      }}
                     />
                     {/* Gradient overlay for better text readability */}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
