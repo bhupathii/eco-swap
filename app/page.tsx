@@ -23,10 +23,18 @@ export default function Home() {
       })
     }
 
-    // Check if the video is empty (0 bytes) by trying to get its duration
+    // Check if the video is empty (0 bytes) or has loading issues
     const checkVideo = setTimeout(() => {
-      if (videoRef.current && (videoRef.current.networkState === 3 || videoRef.current.networkState === 1)) {
-        setVideoError(true)
+      if (videoRef.current) {
+        console.log("Video network state:", videoRef.current.networkState)
+        console.log("Video ready state:", videoRef.current.readyState)
+        console.log("Video source:", videoRef.current.currentSrc)
+        
+        if (videoRef.current.networkState === 3 || // NETWORK_NO_SOURCE
+            videoRef.current.readyState === 0) {   // HAVE_NOTHING
+          console.error("Video failed to load")
+          setVideoError(true)
+        }
       }
     }, 2000)
 
@@ -57,8 +65,10 @@ export default function Home() {
                 muted
                 loop
                 playsInline
-                poster="/placeholder.jpg"
-                onError={() => setVideoError(true)}
+                onError={(e) => {
+                  console.error("Video error event:", e);
+                  setVideoError(true);
+                }}
               >
                 <source src="/videos/ev-bike-video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
